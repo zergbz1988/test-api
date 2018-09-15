@@ -40,13 +40,12 @@ class RegisterUser extends Command
      */
     public function handle() : void
     {
-        echo "Let's register new user.\n";
-
+        $this->info("Let's register new user.");
         $name = $this->ask('Enter name for new user');
         $validator = Validator::make(['name' => $name], ['name' => 'required|max:255',]);
         while ($validator->fails()) {
-            echo "status: error\n";
-            echo "message: " . implode(',', $validator->errors()->messages()['name']) . "\n\n";
+            $this->error("status: error");
+            $this->error("message: " . implode(',', $validator->errors()->messages()['name']));
             $name = $this->ask('Enter name for new user');
             $validator = Validator::make(['name' => $name], ['name' => 'required|max:255',]);
         }
@@ -54,8 +53,8 @@ class RegisterUser extends Command
         $email = $this->ask('Enter email for new user');
         $validator = Validator::make(['email' => $email], ['email' => 'required|email|unique:users']);
         while ($validator->fails()) {
-            echo "status: error\n";
-            echo "message: " . implode(',', $validator->errors()->messages()['email']) . "\n\n";
+            $this->error("status: error");
+            $this->error("message: " . implode(',', $validator->errors()->messages()['email']));
             $email = $this->ask('Enter email for new user');
             $validator = Validator::make(['email' => $email], ['email' => 'required|email|unique:users']);
         }
@@ -63,8 +62,8 @@ class RegisterUser extends Command
         $password = $this->ask('Set the password for new user');
         $validator = Validator::make(['password' => $password], ['password' => 'required|min:4',]);
         while ($validator->fails()) {
-            echo "status: error\n";
-            echo "message: " . implode(',', $validator->errors()->messages()['password']) . "\n\n";
+            $this->error("status: error");
+            $this->error("message: " . implode(',', $validator->errors()->messages()['password']));
             $password = $this->ask('Set the password for new user');
             $validator = Validator::make(['password' => $password], ['password' => 'required|min:4',]);
         }
@@ -74,7 +73,9 @@ class RegisterUser extends Command
 
         $user = User::create($input);
 
-        echo "status: ok\n";
-        echo "login: " . $user->email . "\n";
+        $this->info("status: ok");
+        $this->info("login: " . $user->email);
+
+
     }
 }

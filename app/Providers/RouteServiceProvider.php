@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Category;
+use App\Product;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::bind('product', function ($id) {
+            return Product::where('id', $id)->first() ?? abort(404, 'Product was not found.');
+        });
 
         Route::bind('category', function ($id) {
             return Category::where('id', $id)->first() ?? abort(404, 'Category was not found.');

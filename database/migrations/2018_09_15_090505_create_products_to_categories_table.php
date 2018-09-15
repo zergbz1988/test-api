@@ -28,7 +28,7 @@ class CreateProductsToCategoriesTable extends Migration
             $table->foreign('category_id')
                 ->references('id')->on('categories')
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->unique(['product_id', 'category_id']);
         });

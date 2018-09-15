@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
@@ -30,10 +31,9 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * @param  \Exception $exception
-     * @return void
+     * @param Exception $exception
+     * @return mixed|void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -49,11 +49,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        $code = ($exception instanceof NotFoundHttpException) ? 404 : ($exception instanceof AuthenticationException) ? 401 : 200;
+        $code = $exception instanceof NotFoundHttpException || $exception instanceof MethodNotAllowedHttpException ?
+            404 :
+            ($exception instanceof AuthenticationException ? 401 : 500);
 
         return response()->json([
             'status' => 'error',
-            'message' => $exception->getMessage()
+            'message' => $exception->getMessage() ?: 'Resource not found'
         ], $code);
     }
 }

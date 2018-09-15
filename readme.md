@@ -1,65 +1,207 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Instructions
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## How to install
 
-## About Laravel
+##### 1) Clone git repository:
+`git clone git@github.com:zergbz1988/test-api.git test-api`
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+##### 2) Jump to project folder:
+`cd test-api`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##### 3) Install composer dependencies:
+`composer install`
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+##### 4) Apply migrations:
+`php artisan migrate --seed`
 
-## Learning Laravel
+##### 5) Setup Laravel Passport:
+`php artisan passport:install`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+##### 6) Run Tests:
+For Windows:
+`vendor\bin\phpunit.bat`
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+For Linux:
+`./vendor/bin/phpunit`
 
-## Laravel Sponsors
+***To run all test maybe you'll have to set mysql setting 'max_connections' to 50-100***
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+## How to use
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
+##### 0) register new user:
 
-## Contributing
+```
+php artisan user:register
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+***You'll have to enter user name, email and password to register new user.***
 
-## Security Vulnerabilities
+##### 1) get all categories:
+`curl -X GET test-api/api/categories`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Response:
+```
+{
+"status": "ok",
+"categories":[
+{
+"id": 1,
+"name": "2cvpVbVGjy",
+"created_at": "2018-09-15 20:08:48",
+"updated_at": "2018-09-15 20:08:48"
+},
+{
+"id": 2,
+"name": "VIDvM8k2b8",
+"created_at": "2018-09-15 20:08:48",
+"updated_at": "2018-09-15 20:08:48"
+}
+]
+}
+```
 
-## License
+##### 2) get products by category:
+`curl -X GET test-api/api/categories/1/products`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Response:
+```
+{
+"status": "ok",
+"id": 1,
+"products":[
+{
+"id": 1,
+"name": "Test 11q",
+"price": 200,
+"created_at": "2018-09-15 20:08:48",
+"updated_at": "2018-09-15 20:09:08"
+},
+{
+"id": 3,
+"name": "IBvXPSyyIS",
+"price": 75,
+"created_at": "2018-09-15 20:08:48",
+"updated_at": "2018-09-15 20:08:48"
+},
+{
+"id": 4,
+"name": "Test 0.09847300 1537042151",
+"price": 300,
+"created_at": "2018-09-15 20:09:11",
+"updated_at": "2018-09-15 20:09:11"
+},
+{
+"id": 5,
+"name": "Test 0.31438700 1537042151",
+"price": 300,
+"created_at": "2018-09-15 20:09:11",
+"updated_at": "2018-09-15 20:09:11"
+}
+]
+}
+```
+
+##### 3) login:
+
+`curl -H "Content-Type: application/x-www-form-urlencoded" -X POST test-api/api/login -d "email=test%40test.com&password=12345"` 
+
+Response:
+```
+{
+"status":"ok",
+"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3
+OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxOD
+Q1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4
+NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xy
+lmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeia
+jyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6Nmu
+FH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7
+xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSq
+kbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q",
+"tokenType":"Bearer",
+"expiresAt":"2019-09-15 21:26:22"
+}
+```
+
+Then use **accessToken** for other methods.
+
+##### 4) logout:
+
+`curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxODQ1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xylmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeiajyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6NmuFH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSqkbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q" -X POST test-api/api/logout`
+
+Response:
+```
+{
+"status": "ok"
+}
+```
+
+##### 5) Put new product:
+
+`curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxODQ1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xylmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeiajyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6NmuFH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSqkbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q" -X PUT test-api/api/products -d "name=%D0%92%D0%B0%D1%81%D1%8F3&price=200&categories%5B0%5D=1&categories%5B1%5D=2"`
+
+Response:
+```
+{
+"status": "ok",
+"id": 7
+}
+```
+
+##### 6) Edit product:
+
+`curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxODQ1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xylmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeiajyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6NmuFH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSqkbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q" -X PATCH test-api/api/products/7 -d "name=%D0%92%D0%B0%D1%81%D1%8F3&price=200&categories%5B0%5D=1&categories%5B1%5D=2"`
+
+Response:
+```
+{
+"status": "ok",
+"id": 7
+}
+```
+
+##### 7) Delete product:
+
+`curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxODQ1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xylmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeiajyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6NmuFH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSqkbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q" -X DELETE test-api/api/products/7`
+
+Response:
+```
+{
+"status": "ok",
+}
+```
+
+##### 8) Put new category:
+
+`curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxODQ1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xylmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeiajyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6NmuFH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSqkbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q" -X PUT test-api/api/categories -d "name=%D0%92%D0%B0%D1%81%D1%8F3"`
+
+Response:
+```
+{
+"status": "ok",
+"id": 5
+}
+```
+
+##### 9) Edit category:
+
+`curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxODQ1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xylmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeiajyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6NmuFH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSqkbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q" -X PATCH test-api/api/categories/5 -d "name=%D0%92%D0%B0%D1%81%D1%8F3"`
+
+Response:
+```
+{
+"status": "ok",
+"id": 5
+}
+```
+
+##### 10) Delete category:
+
+`curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMzNTdmZjgxYTQxMTZkYjMwMTY1ODE4YzE1YWU4MTg0NTQyNTU3OTM5MTQ5MDYzYjA1ZTVmZTg2MDQ3ZTk5ZTVjMzBlY2E5NjhhY2RhMDI3In0.eyJhdWQiOiIxIiwianRpIjoiMzM1N2ZmODFhNDExNmRiMzAxNjU4MThjMTVhZTgxODQ1NDI1NTc5MzkxNDkwNjNiMDVlNWZlODYwNDdlOTllNWMzMGVjYTk2OGFjZGEwMjciLCJpYXQiOjE1MzcwNDY3ODIsIm5iZiI6MTUzNzA0Njc4MiwiZXhwIjoxNTY4NTgyNzgyLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q6s7NGEDctKdxELD5ms18RnFrSTzNTfNmYa7Vq5Uny9itNMv_cscANwJrE7izZgjIhwNs8tzbl5ofJzINNe4Xylmv2ratvbHqC4va7FWOEDiUJXR01t7V8cP1YFoaZxcgHdsuzy42svqYgu4Ead411wK_UI4pHvKBGJf0cY9xVTXPBTKyC6wLEm0rXZXwEZsyKfzAE0RmzTBDGWpOeiajyl2iYhfzj9NJyxNOqplGrxma8hPtb32aZKROkBQIbWVu2Q10W_tUQIbvvc-2NCggRyzW2QXonbyqxncsOpWPMbfnDpoo50v_91mgr58vc1Dxmqjvw_7mgeZhl6NmuFH4DOh94nxDQnkEquQz-AphGdSasljjwFVe_Tu-RhfPgld9FiqxUD_qhl4F_3vZZf2ejeYVO6AwyWQrQriLYwmwsyeGGil4fMecIF5kFUw7LOG9VCDvfBUHuQ8u1Z7xl77zT59GWeerjB5bdqw8MsKvVcZ3RHZHXy2oZIbR_IKKR_UT1hro-tNkymTRx2Qer5eYwKlegrY3RjJaVAGxrESv2-b1Xc9qTf0dr5Jb4HEZ1JJ5QIH3z5kURCxSqkbJ8BlniUnpkHCJgkBbIZ4By38cib4RwgEFrsHVO_1PhrN_bauC38ROPdQDA_td8Aunu6fFmMG-oScXQs1fMolVzXKf3Q" -X DELETE test-api/api/categories/5`
+
+Response:
+```
+{
+"status": "ok",
+}
+```

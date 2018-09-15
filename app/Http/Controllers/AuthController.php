@@ -17,8 +17,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|exists:users',
-            'password' => 'required|string',
-            'rememberMe' => 'boolean'
+            'password' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -39,15 +38,13 @@ class AuthController extends Controller
 
         $user = $request->user();
         $tokenResult = $user->createToken('Test Api Token');
-        $token = $tokenResult->token;
 
-        if ($request->input('rememberMe')) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
-        }
+        $token = $tokenResult->token;
 
         $token->save();
 
         return response()->json([
+            'status' => 'ok',
             'accessToken' => $tokenResult->accessToken,
             'tokenType' => 'Bearer',
             'expiresAt' => Carbon::parse($tokenResult->token->expires_at)
