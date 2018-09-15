@@ -8,16 +8,21 @@
 ##### 2) Jump to project folder:
 `cd test-api`
 
-##### 3) Install composer dependencies:
+##### 3) Install dependencies with composer:
 `composer install`
 
-##### 4) Apply migrations:
+##### 4) Copy .env.example in app's root and rename to .env, fill DB settings there
+
+##### 5)  Generate Laravel key
+`php artisan key:generate`
+
+##### 6) Apply migrations:
 `php artisan migrate --seed`
 
-##### 5) Setup Laravel Passport:
+##### 7) Setup Laravel Passport:
 `php artisan passport:install`
 
-##### 6) Run Tests:
+##### 8) Run Tests:
 For Windows:
 `vendor\bin\phpunit.bat`
 
